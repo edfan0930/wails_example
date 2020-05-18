@@ -7,10 +7,17 @@ import (
 	"github.com/wailsapp/wails"
 )
 
-type Robot struct {
-	Name    string
-	runtime *wails.Runtime
-}
+type (
+	Robot struct {
+		Name    string `json:"name"`
+		runtime *wails.Runtime
+		MM
+	}
+	MM struct {
+		Fix string `json:"fix"`
+		Num int    `json:"num"`
+	}
+)
 
 func NewRobot() *Robot {
 	result := &Robot{
@@ -49,7 +56,7 @@ func twokey(say string) string {
 
 func (t *Robot) TryEmit() string {
 
-	t.runtime.Events.Emit("try", "try event")
+	t.runtime.Events.Emit("try", t)
 	return "in try emit"
 }
 
