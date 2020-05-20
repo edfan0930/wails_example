@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/leaanthony/mewn"
+	"github.com/spf13/viper"
 	"github.com/wailsapp/wails"
 )
 
@@ -61,17 +62,21 @@ func (t *Robot) TryEmit() string {
 }
 
 func main() {
-
+	viper.SetConfigName("jsonconfig")
+	viper.SetConfigType("json")
+	viper.AddConfigPath(".")
+	viper.WriteConfig()
 	js := mewn.String("./frontend/dist/app.js")
 	css := mewn.String("./frontend/dist/app.css")
 
 	app := wails.CreateApp(&wails.AppConfig{
-		Width:  1024,
-		Height: 768,
-		Title:  "wails_example",
-		JS:     js,
-		CSS:    css,
-		Colour: "#131313",
+		Width:     1024,
+		Height:    768,
+		Title:     "wails_example",
+		JS:        js,
+		CSS:       css,
+		Colour:    "#131313",
+		Resizable: true,
 	})
 	app.Bind(twokey)
 	app.Bind(basic)
