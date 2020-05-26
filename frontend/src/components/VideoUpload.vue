@@ -12,10 +12,11 @@
         </div>
     </Upload>
     <div>
-    <video  width="400" controls>
-  <source src="videoSrc" type="video/mp4">
-  Your browser does not support HTML video.
-</video>
+    <video id="myVideo" width="400" autoplay loop="loop">
+        <source id="mp4_src" src="" type="video/mp4">
+        Your browser does not support HTML video.
+
+    </video>
 </div>
 </div>
 </template>
@@ -28,7 +29,7 @@
                 console.log('20',f.size)
                const reader = new FileReader()
                reader.onload = f => {
-                   this.videoSrc=f.target.result
+                   this.videoSrc = f.target.result
                    console.log('video src',this.videoSrc)
                }
                //reader.onload = e => this.$emit('load', e.target.result)
@@ -42,8 +43,13 @@
                 videoSrc:'',
             }
         },
-        computed: {
-            
+        watch: {
+            videoSrc:function(){
+               console.log("in computed")
+               document.getElementById("mp4_src").src = this.videoSrc;
+               document.getElementById("myVideo").load();
+
+           } 
         },
     }
 </script>
