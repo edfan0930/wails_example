@@ -2,7 +2,11 @@ package main
 
 import (
 	"fmt"
+	"net/http"
+	"time"
+	"wails_example/router"
 
+	"github.com/labstack/echo"
 	"github.com/leaanthony/mewn"
 	"github.com/spf13/viper"
 	"github.com/wailsapp/wails"
@@ -62,6 +66,20 @@ func (t *Robot) TryEmit() string {
 }
 
 func main() {
+
+	go func() {
+		e := echo.New()
+		router.Router(e)
+
+		s := &http.Server{
+			Addr:         ":9457",
+			ReadTimeout:  60 * time.Second,
+			WriteTimeout: 60 * time.Second,
+		}
+
+		e.Logger.Fatal(e.StartServer(s))
+	}()
+
 	viper.SetConfigName("jsonconfig")
 	viper.SetConfigType("json")
 	viper.AddConfigPath(".")
@@ -82,4 +100,5 @@ func main() {
 	app.Bind(basic)
 	app.Bind(NewRobot())
 	app.Run()
+
 }

@@ -11,6 +11,8 @@
             <p>Click or drag files here to upload</p>
         </div>
     </Upload>
+    <Button @click="tryFirst" type="info" />
+
     <div>
     <video id="myVideo" width="400" autoplay loop="loop">
         <source id="mp4_src" src="" type="video/mp4">
@@ -36,7 +38,13 @@
                 reader.readAsDataURL(f)
                 console.log('25',reader)
                 return false
-            }
+            },
+            async tryFirst(){
+                console.log("in try first");
+                let rp = await this.$api.GetFirst();
+                this.alertMessage=rp;
+                return
+            },
         },
         data() {
             return {
